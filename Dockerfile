@@ -12,7 +12,7 @@ COPY dovecot.conf /etc/dovecot/dovecot.conf
 COPY dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
 
 # Create a directory to store mail data
-RUN mkdir /var/mail
+# RUN mkdir /var/mail
 
 # Expose SMTP, POP3, and IMAP ports
 EXPOSE 25 110 143 587 993
