@@ -1,0 +1,13 @@
+# Dovecot dovecot-sql.conf.ext configuration file
+
+# Enable SQL driver
+driver = sql
+
+# Set the database connection string
+connect = host=localhost dbname=mailserver user=mailuser password=mailpassword
+
+# Define the user query
+user_query = SELECT maildir FROM users WHERE username = '%n' AND active = '1'
+
+# Define the password query
+password_query = SELECT username as user, password FROM users WHERE username = '%n' AND active = '1'

@@ -1,0 +1,37 @@
+# Postfix main.cf configuration file
+
+# Set the hostname
+myhostname = mail.hemend.com
+
+# Set the domain
+mydomain = hemend.com
+
+# Set the destination domain
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+
+# Set the network interfaces to listen on
+inet_interfaces = all
+
+# Enable SMTP authentication
+smtpd_sasl_auth_enable = yes
+
+# Set the SMTP TLS security level
+smtpd_tls_security_level = may
+
+# Set the SMTP TLS parameters
+smtpd_tls_cert_file = /etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file = /etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls = yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+# Set the SMTP submission port
+submission inet n       -       n       -       -       smtpd
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_sasl_type=dovecot
+  -o smtpd_sasl_path=private/auth
+  -o smtpd_sasl_authenticated_header=yes
+  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+  -o milter_macro_daemon_name=ORIGINATING
